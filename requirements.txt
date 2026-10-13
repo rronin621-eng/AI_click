@@ -1,0 +1,6 @@
+# AX 方案（auto_confirm.py / ax_dump.py）必需
+pyobjc-framework-Cocoa==11.1
+pyobjc-framework-ApplicationServices==11.1
+
+# CDP 备选方案（cdp_confirm.py）必需
+websocket-client==1.9.0

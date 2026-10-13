@@ -1,0 +1,14 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# 打包产物
+build/
+dist/
+*.app
+*.zip
+*.dmg
+
+# macOS
+.DS_Store

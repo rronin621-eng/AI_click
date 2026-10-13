@@ -1,0 +1,139 @@
+{
+  "_comment": [
+    "多目标配置。defaults 是共用规则，targets 里每个条目可以单独覆盖任意一项。",
+    "三层过滤缺一不可：",
+    "1) deny_patterns  —— 按钮文字命中就绝对不点（优先级最高）",
+    "2) allow_patterns —— 只有命中这里的按钮才是候选",
+    "3) dialog_markers —— 候选按钮的上层容器里必须出现这些特征文字，",
+    "                     确保点的是确认弹窗里的按钮，而不是编辑器里同名的按钮",
+    "",
+    "想加一个应用：在 targets 里加一条，把 bundle_ids 填对（用",
+    "`python3 auto_confirm.py --list-apps` 查），enabled 设 true。",
+    "每个目标在菜单栏里都有独立的卡片和开关。"
+  ],
+  "poll_interval": 0.6,
+  "kill_switch_file": "~/.auto_confirm_off",
+  "log_file": "~/Library/Logs/auto_confirm.log",
+  "cdp_port": 9222,
+  "defaults": {
+    "allow_patterns": [
+      "^accept$",
+      "^accept all$",
+      "^allow$",
+      "^allow always$",
+      "^run$",
+      "^continue$",
+      "^yes$",
+      "^ok$",
+      "^确认$",
+      "^接受$",
+      "^允许$",
+      "^继续$"
+    ],
+    "deny_patterns": [
+      "reject",
+      "cancel",
+      "discard",
+      "revert",
+      "delete",
+      "remove",
+      "drop",
+      "force",
+      "reset",
+      "overwrite",
+      "uninstall",
+      "deploy",
+      "push",
+      "publish",
+      "sign out",
+      "log out",
+      "view changes",
+      "拒绝",
+      "取消",
+      "删除",
+      "回滚",
+      "重置",
+      "deny"
+    ],
+    "dialog_markers": [
+      "review changes",
+      "\\d+\\s+of\\s+\\d+\\s+pending",
+      "\\d+\\s+change(s)?\\s+to",
+      "do you want to allow",
+      "wants to run",
+      "requires your permission",
+      "your approval is required",
+      "approval is required to continue"
+    ],
+    "require_dialog_marker": true,
+    "dialog_context_up_levels": 6,
+    "dialog_context_down_depth": 5,
+    "warmup_seconds": 8.0,
+    "click_cooldown": 2.0,
+    "max_clicks_per_minute": 30,
+    "max_tree_depth": 40,
+    "max_tree_nodes": 6000,
+    "command_deny_patterns": [
+      "\\bsudo\\b",
+      "\\bgit\\s+push\\b.*(\\s-f\\b|--force)",
+      "\\bgit\\s+reset\\s+--hard\\b",
+      "\\bgit\\s+clean\\s+-[a-z]*f",
+      "\\bgit\\s+branch\\s+.*-D\\b",
+      "--no-verify\\b",
+      "\\b(curl|wget)\\b[^|]*\\|\\s*(sudo\\s+)?(ba|z)?sh\\b",
+      "\\bmkfs\\b",
+      "\\bdd\\s+if=",
+      ">\\s*/dev/(sd|disk|nvme)",
+      "\\bchmod\\s+-R\\s+777\\b",
+      "\\bfind\\b.*\\s-delete\\b",
+      "\\b(shutdown|reboot|halt)\\b",
+      "\\bkillall\\b",
+      "\\bdrop\\s+(table|database|schema)\\b",
+      "\\btruncate\\s+table\\b",
+      "\\b(npm|yarn|pnpm)\\s+publish\\b",
+      "\\bdocker\\s+(system\\s+prune|rm|rmi|volume\\s+rm)\\b",
+      "\\bkubectl\\s+delete\\b",
+      "\\bterraform\\s+(apply|destroy)\\b",
+      "\\baws\\s+\\S+\\s+(delete|rm|terminate)"
+    ],
+    "command_warn_patterns": [
+      "\\brm\\s+-[a-z]*[rf]",
+      "\\brm\\s+.*--(recursive|force)\\b"
+    ]
+  },
+  "targets": [
+    {
+      "id": "kiro",
+      "label": "Kiro",
+      "bundle_ids": [
+        "dev.kiro.desktop"
+      ],
+      "name_contains": [
+        "kiro"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "cursor",
+      "label": "Cursor",
+      "bundle_ids": [
+        "com.todesktop.230313mzl4w4u92"
+      ],
+      "name_contains": [
+        "cursor"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "vscode",
+      "label": "VS Code",
+      "bundle_ids": [
+        "com.microsoft.VSCode"
+      ],
+      "name_contains": [
+        "code"
+      ],
+      "enabled": false
+    }
+  ]
+}

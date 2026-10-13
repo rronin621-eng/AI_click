@@ -1,0 +1,61 @@
+AutoConfirm 安装说明
+====================
+
+AutoConfirm 会在后台自动点击 Kiro 等 AI 编程工具里的确认按钮
+（Review changes 的 Accept、命令审批的 Allow），省去反复手动确认。
+
+系统要求：macOS 11 或更新版本，Apple 芯片和 Intel 芯片的 Mac 都支持。
+
+
+一、安装
+--------
+1. 双击打开 AutoConfirm.dmg，把 AutoConfirm 拖到旁边的「应用程序」文件夹。
+2. 在「应用程序」里双击打开 AutoConfirm。
+
+   这个安装包没有经过 Apple 公证，第一次打开时 macOS 会拦截，
+   提示「无法验证开发者」或「Apple 无法检查其是否包含恶意软件」。处理方法：
+   - 打开「系统设置 → 隐私与安全性」，拉到最下面，
+     找到关于 AutoConfirm 的提示，点「仍要打开」，再输入密码确认。
+   - 如果提示「已损坏，无法打开」，在「终端」里执行下面这行，再重新打开：
+         xattr -dr com.apple.quarantine /Applications/AutoConfirm.app
+
+
+二、授权
+--------
+首次打开会弹出「AutoConfirm 权限设置」窗口，所有需要的权限都在这里：
+
+- 辅助功能（必需）：点「去授权…」，在系统设置里打开 AutoConfirm 的开关。
+  授权后窗口会自动显示「已授权」，然后点「完成」。
+  没有这个权限之前，自动确认无法启用。
+- 登录项（可选）：开机自动启动 AutoConfirm。
+
+之后随时可以在顶部菜单栏点 AC 图标 →「权限设置…」重新打开这个窗口。
+
+
+三、使用
+--------
+- 顶部菜单栏的 AC 图标：AC = 已暂停，AC1 = 1 个目标在运行，AC! = 缺权限或出错。
+- 点 AC 图标打开面板，在 Kiro 卡片上点「启用」就开始自动确认。
+- 每次启动 AutoConfirm 都是全部暂停的状态，需要手动点「启用」。
+
+
+四、请注意
+----------
+开启后，AI 的文件改动和要执行的命令会被自动批准，你不再有逐个检查的机会。
+程序内置了保护规则：
+- Reject / Deny / Cancel 等按钮永远不会被点；
+- sudo、git push --force、curl | sh 等危险命令会被拦下，留给你手动处理；
+- rm -rf 会被放行，但会记入「风险命令记录」，可在菜单里查看。
+即便如此，规则无法覆盖所有情况，使用风险由你自己承担。
+建议在重要项目里先提交一次 git，留个干净的回退点。
+
+
+五、卸载
+--------
+1. 点 AC 图标 →「退出」。
+2. 把「应用程序」里的 AutoConfirm 拖进废纸篓。
+3. 如需彻底清理，在「终端」里执行：
+       rm -rf ~/Library/Application\ Support/AutoConfirm
+       rm -f ~/Library/LaunchAgents/local.autoconfirm.launcher.plist
+       rm -f ~/Library/Logs/auto_confirm*.log
+       tccutil reset Accessibility local.autoconfirm.app
